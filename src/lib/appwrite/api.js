@@ -156,7 +156,7 @@ export async function uploadFile(file){
 export function getFilePreview(fileId){
     console.log('getting file preview');
     try {
-        const fileUrl = storage.getFilePreview(bucketID, fileId, 1000, 1000, 'top', 100);
+        const fileUrl = storage.getFilePreview(bucketID, fileId);
         return fileUrl;
     } catch (error) {
         throw new Error(error.message || 'Failed to get file preview');
