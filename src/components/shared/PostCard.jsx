@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BeerIcon, LucideEdit2, LucideForward } from "lucide-react";
 import { timeAgo } from "@/lib/utils";
 import { PostStats } from './'
+import { getFilePreview } from "@/lib/appwrite/api";
 
 const PostCard = ({ post, styles }) => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const PostCard = ({ post, styles }) => {
     };
   }, [optionsVisible, handleClickOutside]);
 
-  const handleEditClick = () =>{
+  const handleEditClick = () => {
     navigate(`/edit/${post.$id}`);
   }
 
@@ -128,20 +129,20 @@ const PostCard = ({ post, styles }) => {
       </div>
       {/*  Actual post (it shows - image, caption, tags) */}
       <Link to={`post/${post.$id}`} className="w-full" >
-      <div className="sm:px-2 py-3">
-        <p className="body-regular py-2 text-base leading-5 sm:leading-6 font-semibold dark:text-zinc-100 text-gray-800 ">
-          {post.caption}
-        </p>
-        <p className="text-sm dark:text-zinc-300 text-gray-600">
-          {post.tags?.map((tag) => `#${tag} `)}
-        </p>
-      </div>
-      { post.imageURL &&
-      <img
-        src={post.imageURL || "/assets/images/post-placeholder.svg"}
-        className="w-full rounded-lg mb-2 object-center object-cover h-64"
-        alt="post"
-      />}
+        <div className="sm:px-2 py-3">
+          <p className="body-regular py-2 text-base leading-5 sm:leading-6 font-semibold dark:text-zinc-100 text-gray-800 ">
+            {post.caption}
+          </p>
+          <p className="text-sm dark:text-zinc-300 text-gray-600">
+            {post.tags?.map((tag) => `#${tag} `)}
+          </p>
+        </div>
+        {post.imageId &&
+          <img
+            src={getFilePreview(post.imageId) || "/assets/images/post-placeholder.svg"}
+            className="w-full rounded-lg mb-2 object-center object-cover h-64"
+            alt="post"
+          />}
       </Link>
       <PostStats post={post} />
     </div>
